@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PqrController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\LoggedUserMiddleware;
@@ -9,12 +10,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/pqrs/confirmacion/{tracking_code}', [PqrController::class, 'confirmation'])
+    ->name('pqrs.confirmation');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    //Publicas
+    //logueados
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -23,7 +27,6 @@ Route::middleware([
     Route::middleware(['web', AdminMiddleware::class])->group(function () {
         //Usuarios
         Route::get('/users', [UserController::class, 'show'])->name('users')->middleware('auth');
-
     });
     //Agentes|Administrador|Supervisor
     Route::middleware(['web', LoggedUserMiddleware::class])->group(function () {

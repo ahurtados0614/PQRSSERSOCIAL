@@ -17,7 +17,7 @@ class LoggedUserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (in_array(Auth::user()->id_rol, [1, 2])) {
+            if (in_array(Auth::user()->id_rol, [1, 2, 3])) {
                 return $next($request);
             }
             return response()->view('errors.unauthorized', [], 403);

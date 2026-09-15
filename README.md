@@ -1,29 +1,29 @@
-# Sistema PQRS
+# Sistema PQR
 
-Sistema web para la gestión de **Peticiones, Quejas, Reclamos y Sugerencias (PQRS)**, desarrollado como parte de una prueba técnica para el cargo de **Analista de Desarrollo Tecnológico**.
+Sistema web para la gestión de **Peticiones, Quejas, Reclamos y Sugerencias (PQR)**, desarrollado como parte de una prueba técnica para el cargo de **Analista de Desarrollo Tecnológico**.
 
-La aplicación permite a los ciudadanos registrar y consultar sus PQRS mediante un código de seguimiento, mientras que los usuarios administrativos pueden gestionar, actualizar y responder las solicitudes.
+La aplicación permite a los ciudadanos registrar y consultar sus PQR mediante un código de seguimiento, mientras que los usuarios administrativos pueden gestionar, actualizar y responder las solicitudes.
 
 ---
 
 ## 📋 Descripción
 
-El sistema tiene como objetivo centralizar el registro, seguimiento y gestión de PQRS, facilitando tanto la interacción del ciudadano como la administración interna de las solicitudes.
+El sistema tiene como objetivo centralizar el registro, seguimiento y gestión de PQR, facilitando tanto la interacción del ciudadano como la administración interna de las solicitudes.
 
 ### Funcionalidades principales
 
-* Registro público de PQRS.
+* Registro público de PQR.
 * Generación automática de código único de seguimiento.
-* Consulta pública del estado de una PQRS.
-* Gestión administrativa de PQRS.
-* Asignación de PQRS a usuarios administrativos.
+* Consulta pública del estado de una PQR.
+* Gestión administrativa de PQR.
+* Asignación de PQR a usuarios administrativos.
 * Actualización del estado de las solicitudes.
 * Registro de respuesta.
 * Cálculo de fecha límite de respuesta.
 * Semaforización según el tiempo transcurrido y fecha límite.
 * Priorización de solicitudes.
 * Notificaciones por correo electrónico.
-* API REST para consulta y gestión de PQRS.
+* API REST para consulta y gestión de PQR.
 * Validación de datos mediante Form Requests.
 * Migraciones y seeders para facilitar la instalación.
 * Pruebas automatizadas sobre funcionalidades principales.
@@ -32,9 +32,9 @@ El sistema tiene como objetivo centralizar el registro, seguimiento y gestión d
 
 # 📊 Etapa de análisis y diseño
 
-Como parte del desarrollo de la solución se realizó una etapa inicial de **análisis, levantamiento de requerimientos y diseño**, con el propósito de comprender los requerimientos de la prueba técnica, organizar el trabajo y definir la estructura funcional y técnica del sistema.
+Como parte del desarrollo de la solución se realizó una etapa inicial de **análisis, levantamiento de requerimientos y diseño**, con el propósito de comprender los requerimientos de la prueba técnica, organizar el trabajo y definir la estructura funcional y técnica del sistema PQR.
 
-Esta etapa permitió establecer la relación entre los requerimientos identificados, las historias de usuario, las tareas técnicas y los componentes necesarios para la implementación del sistema PQRS.
+Esta etapa permitió establecer la relación entre los requerimientos identificados, las historias de usuario, las tareas técnicas y los componentes necesarios para la implementación del sistema.
 
 ## 📋 Levantamiento de requerimientos y tablero de gestión
 
@@ -56,7 +56,7 @@ Estos ajustes hacen parte del proceso de refinamiento del proyecto y buscan mant
 
 **Tablero de gestión del proyecto:**
 
-* [Tablero Fundación Sersocial IPS – PQRS](https://trello.com/invite/b/6aa436da1b1f284cabc19f95/ATTIabaa2b8900d097e91a924e24bb31ab5a5DCF3315/fundacion-sersocial-ips-pqrs)
+* [Tablero Fundación Sersocial IPS – PQR](https://trello.com/invite/b/6aa436da1b1f284cabc19f95/ATTIabaa2b8900d097e91a924e24bb31ab5a5DCF3315/fundacion-sersocial-ips-pqrs)
 
 ---
 
@@ -74,7 +74,7 @@ El diagrama sirvió como referencia para definir la estructura de la base de dat
 
 ## 🔄 Diagrama de flujo del proceso
 
-Se elaboró un diagrama de flujo para representar el proceso general de gestión de una PQRS, desde su registro por parte del ciudadano hasta las actividades de seguimiento, gestión, respuesta y cierre.
+Se elaboró un diagrama de flujo para representar el proceso general de gestión de una PQR, desde su registro por parte del ciudadano hasta las actividades de seguimiento, gestión, respuesta y cierre.
 
 Este diagrama permite visualizar el flujo funcional del sistema y facilita la comprensión de las diferentes etapas por las que puede pasar una solicitud.
 
@@ -87,8 +87,8 @@ Este diagrama permite visualizar el flujo funcional del sistema y facilita la co
 
 # 🛠️ Tecnologías utilizadas
 
-* **PHP**
-* **Laravel**
+* **PHP 8.3**
+* **Laravel 13.31.0**
 * **MySQL**
 * **Blade**
 * **Bootstrap 5**
@@ -97,6 +97,8 @@ Este diagrama permite visualizar el flujo funcional del sistema y facilita la co
 * **REST API**
 * **Postman**
 * **Git / GitHub**
+* **Nginx**
+* **PHP-FPM**
 
 ---
 
@@ -134,6 +136,20 @@ Entre sus principales ventajas para este proyecto se encuentran:
 * Compatibilidad con Laravel.
 * Facilidad de administración y despliegue.
 
+## Nginx y PHP-FPM
+
+Para el despliegue de la aplicación se utiliza **Nginx** como servidor web y **PHP-FPM** como administrador de procesos PHP.
+
+La aplicación se sirve directamente desde el directorio público de Laravel:
+
+```text
+public/
+```
+
+Esta configuración permite que Nginx gestione las solicitudes HTTP y delegue la ejecución de PHP a PHP-FPM.
+
+Por esta razón, **no es necesario utilizar `php artisan serve` para ejecutar la aplicación en el entorno configurado para el proyecto**.
+
 ## Organización de la aplicación
 
 La aplicación utiliza:
@@ -144,8 +160,8 @@ La aplicación utiliza:
 * **Form Requests:** validación de información recibida.
 * **Services:** encapsulación de lógica de negocio cuando esta requiere reutilización o crecimiento.
 * **API Resources:** estandarización de respuestas de la API.
-* **Mail / Notifications:** envío de notificaciones relacionadas con cambios en las PQRS.
-* **Constants:** definición centralizada de tipos y estados de las PQRS.
+* **Mail / Notifications:** envío de notificaciones relacionadas con cambios en las PQR.
+* **Constants:** definición centralizada de tipos y estados de las PQR.
 
 El criterio principal de arquitectura es mantener una solución **simple, mantenible, escalable y adecuada al alcance de la prueba técnica**.
 
@@ -202,17 +218,15 @@ docs/
 
 Antes de instalar el proyecto se debe contar con:
 
-* PHP 8.2 o superior.
-* Composer.
-* MySQL.
+* PHP 8.3 o superior.
+* Composer 2.x.
+* MySQL 5.7 o superior.
 * Node.js y npm.
 * Git.
-* Un servidor local compatible con PHP, por ejemplo:
+* Nginx.
+* PHP-FPM.
 
-  * XAMPP.
-  * Laragon.
-  * Laravel Herd.
-  * Servidor PHP integrado.
+> El proyecto está preparado para ejecutarse mediante Nginx y PHP-FPM. No es necesario utilizar `php artisan serve`.
 
 ---
 
@@ -221,8 +235,9 @@ Antes de instalar el proyecto se debe contar con:
 ## 1. Clonar el repositorio
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_PROYECTO>
+git clone https://github.com/ahurtados0614/PQRERSOCIAL.git
+
+cd PQRERSOCIAL
 ```
 
 ## 2. Instalar dependencias de PHP
@@ -290,17 +305,65 @@ Para generar los recursos de producción:
 npm run build
 ```
 
-## 9. Iniciar el servidor
+## 9. Configurar el servidor web
 
-```bash
-php artisan serve
-```
-
-La aplicación estará disponible normalmente en:
+La aplicación debe configurarse en Nginx apuntando el `root` al directorio:
 
 ```text
-http://127.0.0.1:8000
+/var/www/html/laravel/PQRSERSOCIAL/pqrs/public
 ```
+
+Ejemplo de configuración:
+
+```nginx
+server {
+    listen 80;
+    server_name pqrs.test;
+
+    root /var/www/html/laravel/PQRSERSOCIAL/pqrs/public;
+
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}
+```
+
+Después de configurar Nginx, verificar la configuración:
+
+```bash
+sudo nginx -t
+```
+
+Si la validación es correcta, reiniciar Nginx:
+
+```bash
+sudo systemctl restart nginx
+```
+
+Verificar PHP-FPM:
+
+```bash
+sudo systemctl status php8.3-fpm
+```
+
+La aplicación estará disponible mediante el dominio configurado:
+
+```text
+http://pqrs.test
+```
+
+> **Nota:** No se utiliza `php artisan serve`, debido a que la aplicación es atendida directamente por Nginx y PHP-FPM.
 
 ---
 
@@ -324,7 +387,7 @@ Entre los principales datos almacenados se encuentran:
 | --------------- | -------------------------------- |
 | `id`            | Identificador interno            |
 | `tracking_code` | Código único para seguimiento    |
-| `type`          | Tipo de PQRS                     |
+| `type`          | Tipo de PQR                     |
 | `status`        | Estado actual                    |
 | `name`          | Nombre del solicitante           |
 | `email`         | Correo del solicitante           |
@@ -342,14 +405,14 @@ Las estructuras de base de datos se gestionan mediante **migrations**, permitien
 
 ---
 
-# 🔎 Seguimiento de PQRS
+# 🔎 Seguimiento de PQR
 
-Cada PQRS registrada obtiene automáticamente un **código único de seguimiento**.
+Cada PQR registrada obtiene automáticamente un **código único de seguimiento**.
 
 Este código permite al ciudadano consultar públicamente información relacionada con su solicitud, incluyendo:
 
 * Código de seguimiento.
-* Tipo de PQRS.
+* Tipo de PQR.
 * Estado actual.
 * Fecha de registro.
 * Fecha límite de respuesta.
@@ -361,7 +424,7 @@ El seguimiento no requiere acceso al panel administrativo.
 
 # 🚦 Semaforización y prioridad
 
-El sistema incorpora un mecanismo de semaforización para facilitar la identificación visual de las PQRS según el tiempo disponible para su atención.
+El sistema incorpora un mecanismo de semaforización para facilitar la identificación visual de las PQR según el tiempo disponible para su atención.
 
 La prioridad se determina considerando principalmente:
 
@@ -370,7 +433,7 @@ La prioridad se determina considerando principalmente:
 * Estado actual.
 * Tiempo restante para atender la solicitud.
 
-Las PQRS con mayor urgencia deben visualizarse primero en el panel administrativo.
+Las PQR con mayor urgencia deben visualizarse primero en el panel administrativo.
 
 La regla exacta de cálculo y clasificación se encuentra implementada de acuerdo con los requisitos establecidos para la prueba técnica.
 
@@ -378,7 +441,7 @@ La regla exacta de cálculo y clasificación se encuentra implementada de acuerd
 
 # 📧 Notificaciones por correo
 
-Cuando una PQRS es gestionada y su estado es actualizado, el sistema puede enviar una notificación al correo electrónico registrado por el ciudadano.
+Cuando una PQR es gestionada y su estado es actualizado, el sistema puede enviar una notificación al correo electrónico registrado por el ciudadano.
 
 La notificación permite informar sobre cambios relevantes relacionados con la solicitud, especialmente:
 
@@ -407,29 +470,29 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 El sistema dispone de endpoints REST para facilitar la integración con otros sistemas.
 
-## Crear una PQRS
+## Crear una PQR
 
 ```http
 POST /api/pqrs
 ```
 
-Permite registrar una nueva PQRS mediante la API.
+Permite registrar una nueva PQR mediante la API.
 
-## Consultar una PQRS
+## Consultar una PQR
 
 ```http
 GET /api/pqrs/{tracking_code}
 ```
 
-Permite consultar una PQRS utilizando su código de seguimiento.
+Permite consultar una PQR utilizando su código de seguimiento.
 
-## Listar PQRS
+## Listar PQR
 
 ```http
 GET /api/pqrs
 ```
 
-Permite consultar las PQRS disponibles según las reglas de acceso implementadas.
+Permite consultar las PQR disponibles según las reglas de acceso implementadas.
 
 ## Actualizar estado
 
@@ -437,7 +500,7 @@ Permite consultar las PQRS disponibles según las reglas de acceso implementadas
 PATCH /api/pqrs/{id}/status
 ```
 
-Permite actualizar el estado de una PQRS.
+Permite actualizar el estado de una PQR.
 
 Las respuestas de la API utilizan una estructura JSON consistente mediante **API Resources**.
 
@@ -451,7 +514,7 @@ Ubicación:
 
 ```text
 postman/
-└── PQRS.postman_collection.json
+└── PQR.postman_collection.json
 ```
 
 La colección utiliza una variable para facilitar el cambio entre ambientes:
@@ -501,7 +564,7 @@ vendor/bin/phpunit
 
 Las pruebas contemplan, entre otros aspectos:
 
-* Registro de PQRS.
+* Registro de PQR.
 * Validación de información.
 * Generación del código de seguimiento.
 * Consulta pública.
@@ -544,7 +607,7 @@ docs/
 └── MANUAL_INSTALACION.md
 ```
 
-El manual de instalación contiene información adicional para configurar y ejecutar el proyecto en un entorno local.
+El manual de instalación contiene información adicional para configurar y desplegar el proyecto en un entorno local.
 
 ---
 
@@ -583,21 +646,31 @@ Se siguen principalmente los siguientes criterios:
 
 Después de realizar la configuración inicial, los comandos principales para trabajar con el proyecto son:
 
-```bash
-php artisan serve
-```
-
-En otra terminal:
+### Limpiar cachés
 
 ```bash
-npm run dev
+php artisan optimize:clear
 ```
 
-Para ejecutar las pruebas:
+### Compilar recursos frontend
+
+```bash
+npm run build
+```
+
+### Ejecutar pruebas
 
 ```bash
 php artisan test
 ```
+
+La aplicación se encuentra disponible mediante el servidor web configurado:
+
+```text
+http://pqrs.test
+```
+
+> El proyecto no requiere ejecutar `php artisan serve`, ya que las solicitudes son atendidas por Nginx y PHP-FPM.
 
 ---
 

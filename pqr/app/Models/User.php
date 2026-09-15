@@ -31,6 +31,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'id_rol',
+        'delete',
     ];
 
     /**
@@ -65,5 +67,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function role()
+    {
+        return $this->belongsTo(Roles::class, 'id_rol');
+    }
+    public function pqrsAssigned()
+    {
+        return $this->hasMany(Pqrs::class, 'responded_at');
     }
 }

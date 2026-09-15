@@ -12,6 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
+            /**
+             * DESCRIPCIÓN CAMPOS
+             * id_rol = Rol del usuario  1 => ADMINISTRADOR, 2 => Gestor PQRS
+             * delete = Permite realizar un borrado lógico 1 => BORRADO o 0 => NO BORRADO
+             */
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
@@ -20,6 +25,12 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->foreignId('id_rol')
+            ->default(2)
+            ->constrained('roles')
+            ->restrictOnDelete()
+            ->cascadeOnUpdate();
+            $table->char('delete', 1)->default(0);
             $table->timestamps();
         });
 

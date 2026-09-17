@@ -34,13 +34,7 @@ Route::middleware([
     //Agentes|Administrador|Supervisor
     Route::middleware(['web', GestorMiddleware::class])->group(function () {
     // Listado de PQR
-        Route::get('/pqrs', [SeguimientoController::class, 'index'])->name('pqrs.index')->middleware('auth');
-       // Route::get('/pqrs', function () {
-            
-       //     return view('pqrs.index');
-       // })->name('pqrs.index');
-
-        
+        Route::get('/pqrs', [SeguimientoController::class, 'index'])->name('pqrs.index')->middleware('auth');        
     });
 
     //api sugeridas

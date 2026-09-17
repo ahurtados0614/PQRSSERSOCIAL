@@ -18,4 +18,13 @@ class PqrsStatus
             self::CERRADA,
         ];
     }
+    public static function labels(): array
+    {
+        return [
+            self::RECIBIDA => 'Recibida',
+            self::EN_GESTION => 'En gestión',
+            self::RESUELTA => 'Resuelta',
+            self::CERRADA => 'Cerrada',
+        ];
+    }
 }

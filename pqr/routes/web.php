@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\PqrController;
+use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\GestorMiddleware;
 use App\Http\Middleware\LoggedUserMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +30,17 @@ Route::middleware([
         //Usuarios
         Route::get('/users', [UserController::class, 'show'])->name('users')->middleware('auth');
     });
+   
     //Agentes|Administrador|Supervisor
-    Route::middleware(['web', LoggedUserMiddleware::class])->group(function () {
-        //Gestores
-        Route::get('/managers', [UserController::class, 'show'])->name('managers')->middleware('auth');
+    Route::middleware(['web', GestorMiddleware::class])->group(function () {
+    // Listado de PQR
+        Route::get('/pqrs', [SeguimientoController::class, 'index'])->name('pqrs.index')->middleware('auth');
+       // Route::get('/pqrs', function () {
+            
+       //     return view('pqrs.index');
+       // })->name('pqrs.index');
+
+        
     });
 
     //api sugeridas

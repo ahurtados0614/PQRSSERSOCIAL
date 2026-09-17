@@ -4,18 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Constants\PqrsChanel;
 use App\Constants\PqrsStatus;
+use App\Constants\PqrsType;
 use App\Http\Requests\StorePqrRequest;
 use App\Models\Pqrs;
 use App\Models\Solicitante;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\IndexPqrRequest;
+use App\Services\SendEmailService;
 
 class PqrController extends Controller
 {
     /**
      * Registrar una nueva PQR.
      */
-    public function store(StorePqrRequest $request): JsonResponse
+    public function store(StorePqrRequest $request, SendEmailService $emailService): JsonResponse
     {
         $pqr = DB::transaction(function () use ($request) {
 
@@ -96,6 +99,18 @@ class PqrController extends Controller
             return $pqr->fresh();
         });
 
+        $pqr->load('solicitante');
+        $pqr->tipo = PqrsType::labels()[$pqr->tipo] ?? $pqr->tipo;
+        $data = [
+            'email'   => $pqr->solicitante->email,
+            'subject' => 'Confirmación de radicado PQR # ' . $pqr->radicado . ' - ' . $pqr->titulo,
+            'pqr'     => $pqr,
+            'plantilla' => 'notification-new-pqr',
+        ];
+    
+        // Llamamos al servicio reutilizable
+        $emailService->execute($data);
+        
         /*
          * Respuesta JSON para el frontend.
          */
@@ -106,18 +121,70 @@ class PqrController extends Controller
         ], 201);
     }
 
-   
-/**
- * Mostrar confirmación pública de la PQR registrada.
- */
-public function confirmation(string $tracking_code)
-{
-    $pqr = Pqrs::where('radicado', $tracking_code)->firstOrFail();
 
-    return view('pqrs.confirmation', [
-        'pqr' => $pqr,
-        'trackingCode' => $pqr->radicado,
-    ]);
-}
+    /**
+     * Mostrar confirmación pública de la PQR registrada.
+     */
+    public function confirmation(string $tracking_code)
+    {
+        $pqr = Pqrs::where('radicado', $tracking_code)->firstOrFail();
 
+        return view('pqrs.confirmation', [
+            'pqr' => $pqr,
+            'trackingCode' => $pqr->radicado,
+        ]);
+    }
+
+    /**
+     * Listar PQR con filtros y paginación.
+     */
+    public function index(IndexPqrRequest $request): JsonResponse
+    {
+        $query = Pqrs::query()
+            ->with(['solicitante'])
+            ->with(['seguimientos'])
+            ->with(['seguimientos.usuario'])
+            //->with(['seguimientos' => function ($query) {
+              //  $query->latest('fecha_registro')->limit(1);
+                //},])
+                ->latest('created_at');
+
+        $query->when(
+            $request->filled('type'),
+            fn($query) => $query->where(
+                'tipo',
+                $request->validated('type')
+            )
+        );
+
+        $query->when(
+            $request->filled('status'),
+            fn($query) => $query->where(
+                'estado',
+                $request->validated('status')
+            )
+        );
+
+        $query->when(
+            $request->filled('priority'),
+            fn($query) => $query->where(
+                'prioridad',
+                $request->validated('priority')
+            )
+        );
+
+        $query->when(
+            $request->filled('category'),
+            fn($query) => $query->where(
+                'categoria',
+                'like',
+                '%' . $request->validated('category') . '%'
+            )
+        );
+
+        $pqrs = $query
+            ->paginate(10)
+            ->withQueryString();
+        return response()->json($pqrs);
+    }
 }

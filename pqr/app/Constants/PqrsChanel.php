@@ -16,4 +16,12 @@ class PqrsChanel
             self::PRESENCIAL,
         ];
     }
+    public static function labels(): array
+    {
+        return [
+            self::WEB => 'Web',
+            self::EMAIL => 'Email',
+            self::PRESENCIAL => 'Presencial',
+        ];
+    }
 }

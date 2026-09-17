@@ -33,7 +33,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="w-full max-w-full overflow-x-hidden">
                 {{ $slot }}
             </main>
         </div>
@@ -41,5 +41,7 @@
         @stack('modals')
 
         @livewireScripts
+        <!--para poder inyectar mis scripts-->
+        @stack('scripts')
     </body>
 </html>

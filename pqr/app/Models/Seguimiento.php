@@ -46,4 +46,5 @@ class Seguimiento extends Model
             'usuario_id'
         );
     }
+    
 }

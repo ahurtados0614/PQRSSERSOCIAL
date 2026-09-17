@@ -18,4 +18,15 @@ class PqrsPriority
             self::URGENTE,
         ];
     }
+    
+    public static function labels(): array
+    {
+        return [
+            self::BAJA => 'Baja',
+            self::MEDIA => 'Media',
+            self::ALTA => 'Alta',
+            self::URGENTE => 'Urgente',
+        ];
+    }
+    
 }

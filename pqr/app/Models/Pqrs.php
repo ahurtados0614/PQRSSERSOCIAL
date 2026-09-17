@@ -46,4 +46,5 @@ class Pqrs extends Model
             'pqr_id'
         )->orderBy('fecha_registro', 'desc');
     }
+    
 }

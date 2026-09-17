@@ -19,6 +19,9 @@
                     <x-nav-link href="{{ route('pqrs.index') }}" :active="request()->routeIs('pqrs.index')">
                         {{ __('Pqrs') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('pqr.tracking') }}" target="_blank">
+                        {{ __('Rastreo de Pqrs') }}
+                    </x-nav-link>
                     @endif
                 </div>
             </div>

@@ -144,10 +144,7 @@ class PqrController extends Controller
             ->with(['solicitante'])
             ->with(['seguimientos'])
             ->with(['seguimientos.usuario'])
-            //->with(['seguimientos' => function ($query) {
-              //  $query->latest('fecha_registro')->limit(1);
-                //},])
-                ->latest('created_at');
+            ->latest('created_at');
 
         $query->when(
             $request->filled('type'),

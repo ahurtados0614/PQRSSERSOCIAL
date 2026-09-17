@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PqrController;
+use App\Http\Controllers\PqrTrackingController;
 use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
@@ -11,9 +12,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
+//Rutas Públicas
+//vista confirmacion pqrs
 Route::get('/pqrs/confirmacion/{tracking_code}', [PqrController::class, 'confirmation'])
     ->name('pqrs.confirmation');
+
+//vista rastreo por radicado
+Route::get('/pqr/rastreo', [PqrTrackingController::class, 'PqrTrackingView'])
+    ->name('pqr.tracking');
 
 Route::middleware([
     'auth:sanctum',
@@ -36,12 +42,4 @@ Route::middleware([
     // Listado de PQR
         Route::get('/pqrs', [SeguimientoController::class, 'index'])->name('pqrs.index')->middleware('auth');        
     });
-
-    //api sugeridas
-    /**
-     * POST   /api/pqrs
-     *GET    /api/pqrs/{tracking_code}
-     *GET    /api/pqrs
-     *PATCH  /api/pqrs/{id}/status
-     */
 });

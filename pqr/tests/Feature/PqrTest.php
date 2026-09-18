@@ -16,11 +16,11 @@ class PqrTest extends TestCase
             'subject' => 'Prueba automatizada',
             'description' => 'PQR registrada mediante PHPUnit',
             'priority' => 'alta',
-            'identification' => '1245368',
-            'name' => 'Pipe',
-            'lastname' => 'Pelaez',
+            'identification' => '87654321',
+            'name' => 'Nombre automatico',
+            'lastname' => 'Apellido automatico',
             'email' => 'email@test.com',
-            'phone' => '987654345678',
+            'phone' => '3008887765',
         ];
 
         $response = $this->postJson('/api/pqrs', $data);
@@ -40,15 +40,15 @@ class PqrTest extends TestCase
 
         $response->assertJsonPath(
             'radicado',
-            fn ($radicado) => preg_match('/^PQ-\d{4}-\d{6}$/', $radicado) === 1
+            fn ($radicado) => preg_match('/^PQR-\d{4}-\d{6}$/', $radicado) === 1
         );
 
         $this->assertDatabaseHas('solicitantes', [
-            'identificacion' => '1245368',
-            'nombre' => 'Pipe',
-            'apellido' => 'Pelaez',
+            'identificacion' => '87654321',
+            'nombre' => 'Nombre automatico',
+            'apellido' => 'Apellido automatico',
             'email' => 'email@test.com',
-            'telefono' => '987654345678',
+            'telefono' => '3008887765',
         ]);
 
         $this->assertDatabaseHas('pqrs', [

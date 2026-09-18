@@ -77,10 +77,10 @@ class PqrController extends Controller
              * En este punto ya tenemos el ID generado por MySQL.
              *
              * Ejemplo:
-             * PQ-2026-000001
+             * PQR-2026-000001
              */
             $radicado = sprintf(
-                'PQ-%s-%06d',
+                'PQR-%s-%06d',
                 $pqr->created_at->format('Y'),
                 $pqr->id
             );

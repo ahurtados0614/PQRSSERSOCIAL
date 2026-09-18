@@ -1,244 +1,165 @@
-# Sistema PQR
+# 🏛️ Sistema de Gestión de PQR — Fundación Sersocial IPS
 
-Sistema web para la gestión de **Peticiones, Quejas, Reclamos y Sugerencias (PQR)**, desarrollado como parte de una prueba técnica para el cargo de **Analista de Desarrollo Tecnológico**.
+Sistema web y API REST para la gestión integral de **Peticiones, Quejas, Reclamos y Sugerencias (PQR)**, desarrollado como prueba práctica para el cargo de **Analista de Desarrollo Tecnológico** en la Fundación Sersocial IPS.
 
-La aplicación permite a los ciudadanos registrar y consultar sus PQR mediante un código de seguimiento, mientras que los usuarios administrativos pueden gestionar, actualizar y responder las solicitudes.
+> 📢 **Aclaración sobre el Stack Tecnológico**
+>
+> De acuerdo con la autorización previa del equipo evaluador / reclutador, la solución fue implementada utilizando **PHP 8.3 / Laravel 13 / Jetstream / Livewire 3 / MySQL / Tailwind CSS**, en reemplazo del stack Python/Django sugerido inicialmente en el documento de la prueba, dando cumplimiento a la totalidad del alcance funcional, arquitectura, pruebas y entregables requeridos.
 
 ---
 
-## 📋 Descripción
+## 🔗 Enlaces Rápidos a Entregables Obligatorios
 
-El sistema tiene como objetivo centralizar el registro, seguimiento y gestión de PQR, facilitando tanto la interacción del ciudadano como la administración interna de las solicitudes.
+| Entregable | Enlace |
+|:---|:---|
+| 📦 **Repositorio GitHub** | [PQRSSERSOCIAL](https://github.com/ahurtados0614/PQRSSERSOCIAL) |
+| 📋 **Tablero Kanban** | [Trello — Fundación Sersocial IPS – PQR](https://trello.com/invite/b/6aa436da1b1f284cabc19f95/ATTIabaa2b8900d097e91a924e24bb31ab5a5DCF3315/fundacion-sersocial-ips-pqrs) |
+| 🗄️ **Diagrama Entidad-Relación (DER)** | [Modelo DER en Lucidchart](https://lucid.app/lucidchart/cc00b79e-c76a-4b8a-bad1-97d075059ec1/edit?viewport_loc=-558%2C-1032%2C2510%2C1078%2C0_0&invitationId=inv_d1510c32-fc47-4373-b9ee-86a9af052ef0) |
+| 🔄 **Diagrama de Flujo del Proceso** | [Flujo PQR en Lucidchart](https://lucid.app/lucidchart/faa769b3-31df-4994-b21d-330e75181a46/edit?viewport_loc=-1470%2C-290%2C2014%2C1078%2C0_0&invitationId=inv_391da0d8-0e35-4ef2-b98d-a53d182c8f81) |
+| 👥 **Diagrama de Actores e Interacción** | [Actores en Lucidchart](https://lucid.app/lucidchart/faa769b3-31df-4994-b21d-330e75181a46/edit?viewport_loc=-114%2C301%2C1457%2C780%2C9kju9ZdyBcU4&invitationId=inv_391da0d8-0e35-4ef2-b98d-a53d182c8f81) |
+| 🔌 **Colección Postman** | `postman/PQR.postman_collection.json` |
+
+---
+
+## ⭐ Tabla de Cumplimiento de Bonificaciones Extra (+35 Pts)
+
+| Criterio Bonus | Estado | Detalle de la Implementación | Puntos |
+|:---|:---:|:---|:---:|
+| **Autenticación y Roles** | ✅ Completado | Control de acceso y sesiones mediante **Laravel Jetstream y Sanctum**. Separación de vistas y permisos para la administración. | **+10** |
+| **Despliegue Documentado** | ✅ Completado | Guía paso a paso para servidor Linux/VPS con **Nginx + PHP 8.3-FPM**, sirviendo directamente el directorio `/public`. | **+5** |
+| **Calidad Extra** | ✅ Completado | Pruebas automatizadas con **PHPUnit**, Seeders con datos demo y **Colección Postman** lista para importar. | **+5** |
+| **API Externa / Integración** | ✅ Completado | Integración de servicio de **notificaciones por correo (SMTP)** para confirmaciones de radicado y avisos de gestión. | **+5** |
+| **Uso Transparente de IA** | ✅ Completado | Declaración explícita sobre el uso de herramientas de IA y su alcance técnico en el proyecto. | **+10** |
+
+**Total de bonificaciones adicionales: +35 puntos**
+
+---
+
+## 📋 Resumen del Sistema y Funcionalidades
+
+El sistema cubre la totalidad del MVP exigido en la prueba técnica.
 
 ### Funcionalidades principales
 
-* Registro público de PQR.
-* Generación automática de código único de seguimiento.
-* Consulta pública del estado de una PQR.
-* Gestión administrativa de PQR.
-* Asignación de PQR a usuarios administrativos.
-* Actualización del estado de las solicitudes.
-* Registro de respuesta.
-* Cálculo de fecha límite de respuesta.
-* Semaforización según el tiempo transcurrido y fecha límite.
-* Priorización de solicitudes.
-* Notificaciones por correo electrónico.
-* API REST para consulta y gestión de PQR.
-* Validación de datos mediante Form Requests.
-* Migraciones y seeders para facilitar la instalación.
-* Pruebas automatizadas sobre funcionalidades principales.
+- 📝 **Registro Público de PQR:** creación de solicitudes con asignación automática de código de radicado.
+- 🔎 **Consulta por Radicado:** buscador público para verificar el estado de una PQR.
+- 🖥️ **Panel de Administración:** listado con filtros por tipo, estado y prioridad, detalle de solicitud, gestión de estado y módulo de estadísticas.
+- 🕐 **Historial de Seguimiento:** comentarios y trazabilidad de cambios de estado.
+- ➕ **Agregados de Valor:** cálculo automático de fechas límite de respuesta, semaforización visual de vencimiento y asignación de agentes responsables.
 
 ---
 
-# 📊 Etapa de análisis y diseño
+# 🛠️ Tecnologías Utilizadas
 
-Como parte del desarrollo de la solución se realizó una etapa inicial de **análisis, levantamiento de requerimientos y diseño**, con el propósito de comprender los requerimientos de la prueba técnica, organizar el trabajo y definir la estructura funcional y técnica del sistema PQR.
-
-Esta etapa permitió establecer la relación entre los requerimientos identificados, las historias de usuario, las tareas técnicas y los componentes necesarios para la implementación del sistema.
-
-## 📋 Levantamiento de requerimientos y tablero de gestión
-
-Para la planificación y seguimiento del desarrollo se utilizó un **tablero Kanban**, mediante el cual se organizaron las actividades correspondientes a las diferentes etapas del proyecto:
-
-* Análisis de requerimientos.
-* Diseño de la solución.
-* Desarrollo.
-* Integración.
-* Pruebas.
-* Documentación.
-* Entrega final.
-
-### Historial de ajustes del tablero Kanban
-
-El tablero Kanban fue modificado progresivamente durante la etapa de análisis y planificación del proyecto. Los cambios realizados permitieron ajustar la estructura inicial del backlog a los requisitos establecidos en la prueba técnica, identificar las funcionalidades obligatorias, organizar las historias de usuario y diferenciar las actividades de análisis, desarrollo, integración, pruebas y entrega.
-
-Estos ajustes hacen parte del proceso de refinamiento del proyecto y buscan mantener la **trazabilidad entre los requisitos de la prueba, las historias de usuario y las tareas técnicas necesarias para su implementación**.
-
-**Tablero de gestión del proyecto:**
-
-* [Tablero Fundación Sersocial IPS – PQR](https://trello.com/invite/b/6aa436da1b1f284cabc19f95/ATTIabaa2b8900d097e91a924e24bb31ab5a5DCF3315/fundacion-sersocial-ips-pqrs)
+| Tecnología | Versión / Implementación |
+|:---|:---|
+| **PHP** | 8.3 |
+| **Framework Backend** | Laravel 13.17 |
+| **Autenticación y UI** | Laravel Jetstream 5.5 + Livewire 3.6 |
+| **Base de Datos** | MySQL 8.0 |
+| **Servidor Web** | Nginx + PHP 8.3-FPM |
+| **Pruebas Automatizadas** | PHPUnit 12.5 |
+| **Estilos & Asset Bundling** | Tailwind CSS + Vite |
+| **Herramientas de Integración** | Postman |
 
 ---
 
-## 🗄️ Diagrama Entidad-Relación (DER)
+# 🏗️ Decisiones de Arquitectura
 
-Como parte del diseño de la solución se elaboró un **Diagrama Entidad-Relación (DER)** para representar la estructura de datos del sistema, sus entidades principales y las relaciones existentes entre ellas.
+Se adoptó una arquitectura basada en **MVC (Modelo-Vista-Controlador)**, complementada con una capa de **Services** y **Form Requests** para separar responsabilidades y mantener una estructura organizada.
 
-El diagrama sirvió como referencia para definir la estructura de la base de datos y posteriormente implementar las migraciones de Laravel.
+### Componentes principales
 
-**Diagrama:**
+1. **Modelos y Persistencia — `app/Models/`**
 
-* [Diagrama Entidad-Relación](https://lucid.app/lucidchart/cc00b79e-c76a-4b8a-bad1-97d075059ec1/edit?viewport_loc=-558%2C-1032%2C2510%2C1078%2C0_0&invitationId=inv_d1510c32-fc47-4373-b9ee-86a9af052ef0)
+   Definición de las entidades `Pqrs`, `Seguimientos`, `Solicitantes`, `Roles` y `User`, utilizando relaciones de Eloquent.
 
----
+2. **Validación de Datos — `app/Http/Requests/`**
 
-## 🔄 Diagrama de flujo del proceso
+   Encapsulamiento de las reglas de validación para mantenerlas aisladas de los controladores.
 
-Se elaboró un diagrama de flujo para representar el proceso general de gestión de una PQR, desde su registro por parte del ciudadano hasta las actividades de seguimiento, gestión, respuesta y cierre.
+3. **Capa de Servicios — `app/Services/`**
 
-Este diagrama permite visualizar el flujo funcional del sistema y facilita la comprensión de las diferentes etapas por las que puede pasar una solicitud.
+   Centralización de lógica de negocio reutilizable, incluyendo envío de correos y operaciones transaccionales.
 
-**Diagramas:**
+4. **Formateo de API — `app/Http/Resources/`**
 
-* [Diagrama de flujo del proceso](https://lucid.app/lucidchart/faa769b3-31df-4994-b21d-330e75181a46/edit?viewport_loc=-1470%2C-290%2C2014%2C1078%2C0_0&invitationId=inv_391da0d8-0e35-4ef2-b98d-a53d182c8f81)
-* [Diagrama de actores e interacción](https://lucid.app/lucidchart/faa769b3-31df-4994-b21d-330e75181a46/edit?viewport_loc=-114%2C301%2C1457%2C780%2C9kju9ZdyBcU4&invitationId=inv_391da0d8-0e35-4ef2-b98d-a53d182c8f81)
+   Estandarización de las respuestas JSON de los endpoints de la API REST.
 
----
+5. **Constantes y Enums — `app/Constants/`**
 
-# 🛠️ Tecnologías utilizadas
-
-* **PHP 8.3**
-* **Laravel 13.31.0**
-* **MySQL**
-* **Blade**
-* **Bootstrap 5**
-* **JavaScript**
-* **Vite**
-* **REST API**
-* **Postman**
-* **Git / GitHub**
-* **Nginx**
-* **PHP-FPM**
+   Centralización de estados y tipos de PQR para facilitar el mantenimiento y evitar valores repetidos.
 
 ---
 
-# 🏗️ Decisiones de arquitectura
-
-Se implementa una arquitectura basada principalmente en el patrón **MVC (Model-View-Controller)** proporcionado por Laravel.
-
-La solución busca mantener un equilibrio entre funcionalidad, claridad y facilidad de mantenimiento, evitando incorporar tecnologías o patrones innecesarios para el alcance de la prueba.
-
-## Laravel
-
-Laravel fue seleccionado porque proporciona:
-
-* Arquitectura MVC.
-* Sistema de rutas.
-* Controladores.
-* Eloquent ORM.
-* Migraciones y seeders.
-* Validación mediante Form Requests.
-* Middleware y autenticación.
-* Sistema de correo y notificaciones.
-* Soporte para APIs REST.
-* Herramientas para pruebas automatizadas.
-
-## MySQL
-
-MySQL se utiliza como motor de base de datos debido a que el sistema maneja información estructurada y relaciones entre entidades.
-
-Entre sus principales ventajas para este proyecto se encuentran:
-
-* Integridad referencial.
-* Relaciones entre tablas.
-* Índices.
-* Buen rendimiento para este tipo de aplicación.
-* Compatibilidad con Laravel.
-* Facilidad de administración y despliegue.
-
-## Nginx y PHP-FPM
-
-Para el despliegue de la aplicación se utiliza **Nginx** como servidor web y **PHP-FPM** como administrador de procesos PHP.
-
-La aplicación se sirve directamente desde el directorio público de Laravel:
+# 📁 Estructura del Proyecto
 
 ```text
-public/
-```
-
-Esta configuración permite que Nginx gestione las solicitudes HTTP y delegue la ejecución de PHP a PHP-FPM.
-
-Por esta razón, **no es necesario utilizar `php artisan serve` para ejecutar la aplicación en el entorno configurado para el proyecto**.
-
-## Organización de la aplicación
-
-La aplicación utiliza:
-
-* **Models:** representación y acceso a los datos.
-* **Views:** interfaces desarrolladas con Blade y Bootstrap.
-* **Controllers:** manejo del flujo de las solicitudes.
-* **Form Requests:** validación de información recibida.
-* **Services:** encapsulación de lógica de negocio cuando esta requiere reutilización o crecimiento.
-* **API Resources:** estandarización de respuestas de la API.
-* **Mail / Notifications:** envío de notificaciones relacionadas con cambios en las PQR.
-* **Constants:** definición centralizada de tipos y estados de las PQR.
-
-El criterio principal de arquitectura es mantener una solución **simple, mantenible, escalable y adecuada al alcance de la prueba técnica**.
-
----
-
-# 📁 Estructura principal del proyecto
-
-```text
-app/
-├── Constants/
-│   ├── PqrsStatus.php
-│   └── PqrsType.php
-│
-├── Http/
-│   ├── Controllers/
-│   │   ├── Admin/
-│   │   ├── PqrsController.php
-│   │   └── TrackingController.php
-│   │
-│   ├── Requests/
-│   └── Resources/
-│
-├── Mail/
-│
-├── Models/
-│   ├── Pqrs.php
-│   └── User.php
-│
-└── Services/
-
-database/
-├── migrations/
-└── seeders/
-
-resources/
-└── views/
-
-routes/
-├── api.php
-└── web.php
-
-tests/
-├── Feature/
-└── Unit/
-
-docs/
-├── MANUAL_INSTALACION.md
-└── ...
+PQRSSERSOCIAL/
+   └──pqr/
+      │
+      ├── app/
+      │   ├── Constants/          # Definición de estados y tipos
+      │   ├── Http/
+      │   │   ├── Controllers/    # Controladores Web y API REST
+      │   │   ├── Requests/       # Validaciones (Form Requests)
+      │   │   └── Resources/      # Formateadores JSON de API
+      │   ├── Models/             # Modelos (Pqrs, Tracking, User, etc.)
+      │   └── Services/           # Servicios (correo, gestión, etc.)
+      │
+      ├── database/
+      │   ├── factories/          # Factorías de datos de prueba
+      │   ├── migrations/         # Migraciones de base de datos
+      │   └── seeders/            # Seeders de base de datos
+      │
+      ├── postman/
+      │   └── PQR.postman_collection.json
+      │
+      ├── public/                 # Punto de entrada de la aplicación
+      ├── resources/
+      │   └── views/              # Vistas Blade / componentes Livewire
+      ├── routes/
+      │   ├── api.php             # Endpoints de la API
+      │   └── web.php             # Rutas del panel web y cliente
+      └── tests/                  
+            └──Feature            # Pruebas automatizadas
 ```
 
 ---
 
-# ⚙️ Requisitos
+# ⚙️ Requisitos Mínimos del Servidor
 
-Antes de instalar el proyecto se debe contar con:
+Antes de realizar el despliegue, el servidor debe contar con los siguientes componentes:
 
-* PHP 8.3 o superior.
-* Composer 2.x.
-* MySQL 5.7 o superior.
-* Node.js y npm.
-* Git.
-* Nginx.
-* PHP-FPM.
-
-> El proyecto está preparado para ejecutarse mediante Nginx y PHP-FPM. No es necesario utilizar `php artisan serve`.
+| Componente | Requisito |
+|:---|:---|
+| **PHP** | 8.3 con extensiones `pdo_mysql`, `mbstring`, `openssl`, `tokenizer`, `xml`, `curl` y `fpm` |
+| **Servidor Web** | Nginx 1.18+ |
+| **Base de Datos** | MySQL 8.0+ / MariaDB 10.5+ |
+| **Composer** | 2.x |
+| **Node.js** | v18+ |
+| **NPM** | v9+ |
+| **Control de versiones** | Git |
 
 ---
 
-# 📥 Instalación
+# 🚀 Despliegue en Servidor / Entorno de Producción
+
+Sigue el siguiente procedimiento para clonar y levantar la aplicación en un servidor Linux.
 
 ## 1. Clonar el repositorio
 
-```bash
-git clone https://github.com/ahurtados0614/PQRERSOCIAL.git
+Clonar la rama `main` dentro del directorio web del servidor:
 
-cd PQRERSOCIAL
+```bash
+cd /var/www/html/laravel/PQRSSERSOCIAL
+
+git clone -b main https://github.com/ahurtados0614/PQRSSERSOCIAL.git pqrs
+
+cd pqrs
 ```
+
+---
 
 ## 2. Instalar dependencias de PHP
 
@@ -246,460 +167,363 @@ cd PQRERSOCIAL
 composer install
 ```
 
-## 3. Instalar dependencias de frontend
+Para un entorno de producción se recomienda:
 
 ```bash
-npm install
+composer install --no-dev --optimize-autoloader
 ```
 
-## 4. Crear archivo de configuración
+---
 
-Copiar el archivo `.env.example`:
+## 3. Configurar las variables de entorno
+
+Crear el archivo `.env` a partir del archivo de ejemplo:
 
 ```bash
 cp .env.example .env
 ```
 
-En Windows también puede realizarse manualmente copiando `.env.example` y renombrándolo como `.env`.
-
-## 5. Generar la clave de la aplicación
+Generar la clave de aplicación:
 
 ```bash
 php artisan key:generate
 ```
 
-## 6. Configurar la base de datos
-
-Crear una base de datos MySQL y configurar las variables correspondientes en el archivo `.env`.
-
-Ejemplo:
+Configurar los datos de conexión a la base de datos:
 
 ```env
+APP_URL=tu_url_configurada_en_hots
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=pqrs
-DB_USERNAME=root
-DB_PASSWORD=
+DB_DATABASE=pqrs_db
+DB_USERNAME=tu_usuario_db
+DB_PASSWORD=tu_password_db
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=tu_correo
+MAIL_PASSWORD=tu_pasword_gmail_app
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=tu_correo
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
-## 7. Ejecutar migraciones y seeders
+También se deben configurar las variables correspondientes al entorno de producción, correo electrónico y demás servicios utilizados por la aplicación.
+
+---
+
+## 4. Compilar los recursos Frontend
+
+Instalar las dependencias de Node.js:
 
 ```bash
-php artisan migrate --seed
+npm install
 ```
 
-Los seeders permiten crear los datos iniciales necesarios para realizar pruebas del sistema.
-
-## 8. Compilar los recursos frontend
-
-Para desarrollo:
-
-```bash
-npm run dev
-```
-
-Para generar los recursos de producción:
+Compilar los recursos para producción:
 
 ```bash
 npm run build
 ```
 
-## 9. Configurar el servidor web
+---
 
-La aplicación debe configurarse en Nginx apuntando el `root` al directorio:
+## 5. Inicializar la base de datos
 
-```text
-/var/www/html/laravel/PQRSERSOCIAL/pqrs/public
+Ejecutar las migraciones y seeders:
+
+```bash
+php artisan migrate:fresh --seed
 ```
 
-Ejemplo de configuración:
+> ⚠️ **Nota:** `migrate:fresh` elimina todas las tablas existentes de la base de datos. Debe utilizarse únicamente cuando se desea reconstruir completamente la base de datos, por ejemplo durante una instalación inicial o entorno de pruebas.
+>
+> Para una actualización de una instalación existente, utilizar:
+>
+> ```bash
+> php artisan migrate --force
+> ```
+
+---
+
+## 6. Configurar permisos
+
+Garantizar que el usuario del servidor web tenga permisos de escritura sobre los directorios requeridos:
+
+```bash
+sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chmod -R 775 storage bootstrap/cache
+```
+
+---
+
+## 7. Crear el enlace de almacenamiento
+
+Si la aplicación utiliza archivos almacenados públicamente:
+
+```bash
+php artisan storage:link
+```
+
+---
+
+## 8. Optimizar la aplicación
+
+Para producción:
+
+```bash
+php artisan optimize
+```
+
+---
+
+# 👤 Usuarios y Credenciales Demo
+
+Al ejecutar:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+el sistema registra automáticamente los siguientes usuarios de prueba:
+
+| Rol | ID | Nombre | Correo electrónico | Contraseña |
+|:---|:---:|:---|:---|:---|
+| Administrador | 1 | Administrador | `admin@example.com` | `12345678` |
+| Gestor PQRS | 2 | Gestor PQRS | `gestor@example.com` | `12345678` |
+| Supervisor PQRS | 3 | Supervisor PQRS | `supervisor@example.com` | `12345678` |
+
+> 🔐 **Recomendación:** las credenciales anteriores corresponden exclusivamente a datos demo. En un entorno productivo deben reemplazarse inmediatamente.
+
+---
+
+# 🌐 Configuración del Servidor Nginx
+
+La aplicación debe ser servida desde el directorio `public` de Laravel.
+
+Archivo de configuración:
+
+```text
+/etc/nginx/sites-available/pqrs
+```
+
+Configuración:
 
 ```nginx
 server {
     listen 80;
     server_name pqrs.test;
 
-    root /var/www/html/laravel/PQRSERSOCIAL/pqrs/public;
-
+    root /var/www/html/laravel/PQRSSERSOCIAL/pqrs/public;
     index index.php index.html;
+
+    access_log /var/log/nginx/pqrs.access.log;
+    error_log /var/log/nginx/pqrs.error.log;
+
+    client_max_body_size 20M;
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
 
     location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+        include fastcgi_params;
+
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param HTTP_PROXY "";
+
+        fastcgi_pass unix:/var/run/php/php8.3-fpm.sock;
+
+        fastcgi_read_timeout 60s;
     }
 
-    location ~ /\.ht {
+    location ~ /\. {
         deny all;
     }
 }
 ```
 
-Después de configurar Nginx, verificar la configuración:
+### Habilitar el sitio
+
+Crear el enlace simbólico:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/pqrs /etc/nginx/sites-enabled/pqrs
+```
+
+Validar la configuración:
 
 ```bash
 sudo nginx -t
 ```
 
-Si la validación es correcta, reiniciar Nginx:
+Si la configuración es correcta:
 
 ```bash
-sudo systemctl restart nginx
+sudo systemctl reload nginx
 ```
 
-Verificar PHP-FPM:
+Reiniciar PHP-FPM cuando sea necesario:
 
 ```bash
-sudo systemctl status php8.3-fpm
+sudo systemctl restart php8.3-fpm
 ```
 
-La aplicación estará disponible mediante el dominio configurado:
+### Configuración del dominio local
+
+Para realizar pruebas utilizando `pqrs.test`, agregar al archivo `/etc/hosts`:
 
 ```text
-http://pqrs.test
-```
-
-> **Nota:** No se utiliza `php artisan serve`, debido a que la aplicación es atendida directamente por Nginx y PHP-FPM.
-
----
-
-# 👤 Usuario administrativo
-
-El proyecto incluye un usuario administrativo creado mediante los seeders.
-
-Las credenciales de prueba deben consultarse en la configuración de los seeders o en el manual de instalación.
-
-> **Importante:** Las credenciales incluidas son únicamente para el entorno de prueba y desarrollo.
-
----
-
-# 🗃️ Base de datos
-
-La entidad principal del sistema es `pqrs`.
-
-Entre los principales datos almacenados se encuentran:
-
-| Campo           | Descripción                      |
-| --------------- | -------------------------------- |
-| `id`            | Identificador interno            |
-| `tracking_code` | Código único para seguimiento    |
-| `type`          | Tipo de PQR                     |
-| `status`        | Estado actual                    |
-| `name`          | Nombre del solicitante           |
-| `email`         | Correo del solicitante           |
-| `phone`         | Teléfono del solicitante         |
-| `subject`       | Asunto                           |
-| `description`   | Descripción de la solicitud      |
-| `response`      | Respuesta de la entidad          |
-| `assigned_to`   | Usuario administrativo encargado |
-| `due_date`      | Fecha límite de respuesta        |
-| `responded_at`  | Fecha de respuesta               |
-| `created_at`    | Fecha de creación                |
-| `updated_at`    | Fecha de actualización           |
-
-Las estructuras de base de datos se gestionan mediante **migrations**, permitiendo reproducir la estructura de la aplicación en diferentes entornos.
-
----
-
-# 🔎 Seguimiento de PQR
-
-Cada PQR registrada obtiene automáticamente un **código único de seguimiento**.
-
-Este código permite al ciudadano consultar públicamente información relacionada con su solicitud, incluyendo:
-
-* Código de seguimiento.
-* Tipo de PQR.
-* Estado actual.
-* Fecha de registro.
-* Fecha límite de respuesta.
-* Información de respuesta cuando corresponda.
-
-El seguimiento no requiere acceso al panel administrativo.
-
----
-
-# 🚦 Semaforización y prioridad
-
-El sistema incorpora un mecanismo de semaforización para facilitar la identificación visual de las PQR según el tiempo disponible para su atención.
-
-La prioridad se determina considerando principalmente:
-
-* Fecha de creación.
-* Fecha límite de respuesta.
-* Estado actual.
-* Tiempo restante para atender la solicitud.
-
-Las PQR con mayor urgencia deben visualizarse primero en el panel administrativo.
-
-La regla exacta de cálculo y clasificación se encuentra implementada de acuerdo con los requisitos establecidos para la prueba técnica.
-
----
-
-# 📧 Notificaciones por correo
-
-Cuando una PQR es gestionada y su estado es actualizado, el sistema puede enviar una notificación al correo electrónico registrado por el ciudadano.
-
-La notificación permite informar sobre cambios relevantes relacionados con la solicitud, especialmente:
-
-* Cambio de estado.
-* Respuesta registrada.
-* Finalización de la gestión.
-
-Para utilizar el envío de correos se deben configurar correctamente las variables SMTP en el archivo `.env`.
-
-Ejemplo:
-
-```env
-MAIL_MAILER=smtp
-MAIL_HOST=<SERVIDOR_SMTP>
-MAIL_PORT=<PUERTO>
-MAIL_USERNAME=<USUARIO>
-MAIL_PASSWORD=<CONTRASEÑA>
-MAIL_ENCRYPTION=<ENCRYPTION>
-MAIL_FROM_ADDRESS=<CORREO>
-MAIL_FROM_NAME="${APP_NAME}"
+127.0.0.1 pqrs.test
 ```
 
 ---
 
 # 🔌 API REST
 
-El sistema dispone de endpoints REST para facilitar la integración con otros sistemas.
+La aplicación dispone de una API REST para la consulta y gestión de las PQR.
 
-## Crear una PQR
+## Endpoints disponibles
 
-```http
-POST /api/pqrs
-```
-
-Permite registrar una nueva PQR mediante la API.
-
-## Consultar una PQR
-
-```http
-GET /api/pqrs/{tracking_code}
-```
-
-Permite consultar una PQR utilizando su código de seguimiento.
-
-## Listar PQR
-
-```http
-GET /api/pqrs
-```
-
-Permite consultar las PQR disponibles según las reglas de acceso implementadas.
-
-## Actualizar estado
-
-```http
-PATCH /api/pqrs/{id}/status
-```
-
-Permite actualizar el estado de una PQR.
-
-Las respuestas de la API utilizan una estructura JSON consistente mediante **API Resources**.
+| Método | Endpoint | Descripción |
+|:---:|:---|:---|
+| `GET` | `/api/pqr` | Listar PQR con filtros (`type`, `status`, `priority`) |
+| `POST` | `/api/pqr` | Crear una nueva PQR |
+| `GET` | `/api/pqr/{id}` | Ver detalle de una PQR |
+| `PATCH` | `/api/pqr/{id}/estado` | Cambiar estado / prioridad |
+| `POST` | `/api/pqr/{id}/seguimiento` | Agregar entrada de seguimiento |
+| `GET` | `/api/pqr/{id}/seguimiento` | Obtener historial de seguimiento |
+| `GET` | `/api/pqr/buscar?radicado={num}` | Consulta pública por número de radicado |
 
 ---
 
-# 📮 Postman
+# 📮 Colección Postman
 
-La colección de Postman se encuentra dentro del proyecto y contiene las solicitudes necesarias para probar los principales endpoints de la API.
+El proyecto incluye una colección de Postman para facilitar las pruebas de la API.
 
-Ubicación:
+La colección se encuentra en:
 
 ```text
-postman/
-└── PQR.postman_collection.json
+postman/PQR.postman_collection.json
 ```
 
-La colección utiliza una variable para facilitar el cambio entre ambientes:
+### Importar la colección
+
+1. Abrir **Postman**.
+2. Seleccionar **Import**.
+3. Importar el archivo:
+
+```text
+postman/PQR.postman_collection.json
+```
+[CLIC AQUI para ir al enlace del workspace de POSTMAN](https://www.postman.com/altimetry-pilot-53501146-s-team/fundacin-sersocial-ips-pqrs/request/fjte5el/obtener-csrf?sideView=agentMode) 
+
+4. Configurar la variable de entorno:
 
 ```text
 {{base_url}}
 ```
 
-Ejemplo:
-
-```text
-{{base_url}}/api/pqrs
-```
-
-Para realizar las pruebas:
-
-1. Importar la colección en Postman.
-2. Configurar `base_url`.
-3. Ejecutar las solicitudes disponibles.
-4. Verificar códigos HTTP y respuestas JSON.
-
----
-
-# 🧪 Pruebas
-
-El proyecto incluye pruebas automatizadas para validar las funcionalidades principales.
-
-Las pruebas se encuentran organizadas principalmente en:
-
-```text
-tests/
-├── Feature/
-└── Unit/
-```
-
-Para ejecutar las pruebas:
-
-```bash
-php artisan test
-```
-
-También es posible ejecutar:
-
-```bash
-vendor/bin/phpunit
-```
-
-Las pruebas contemplan, entre otros aspectos:
-
-* Registro de PQR.
-* Validación de información.
-* Generación del código de seguimiento.
-* Consulta pública.
-* Cálculo de fecha límite.
-* Acceso administrativo.
-* Actualización de estados.
-* Funcionamiento de endpoints API.
-
----
-
-# 🔐 Seguridad
-
-Se aplican diferentes mecanismos proporcionados por Laravel para proteger la aplicación:
-
-* Validación de datos de entrada.
-* Autenticación para el panel administrativo.
-* Middleware para proteger rutas administrativas.
-* Protección CSRF en formularios web.
-* Uso de Eloquent ORM para interacción con la base de datos.
-* Variables sensibles almacenadas mediante `.env`.
-* Restricción de acceso a funcionalidades administrativas.
-* Validación de datos recibidos por la API.
-
-Las credenciales y configuraciones sensibles no deben almacenarse directamente en el repositorio.
-
----
-
-# 📚 Documentación adicional
-
-La documentación complementaria se encuentra en la carpeta:
-
-```text
-docs/
-```
-
-Actualmente contempla:
-
-```text
-docs/
-└── MANUAL_INSTALACION.md
-```
-
-El manual de instalación contiene información adicional para configurar y desplegar el proyecto en un entorno local.
-
----
-
-# 🌱 Seeders
-
-Los seeders permiten generar información inicial para facilitar las pruebas del sistema.
-
-Para ejecutar nuevamente la base de datos con los datos de prueba:
-
-```bash
-php artisan migrate:fresh --seed
-```
-
-> Este comando elimina las tablas existentes y vuelve a ejecutar todas las migraciones y seeders. Debe utilizarse únicamente en ambientes de desarrollo o prueba.
-
----
-
-# 🧹 Código y mantenimiento
-
-El proyecto busca mantener una estructura organizada y fácil de comprender.
-
-Se siguen principalmente los siguientes criterios:
-
-* Separación de responsabilidades.
-* Reutilización de componentes.
-* Validaciones fuera de los controladores cuando corresponde.
-* Uso de constantes para valores definidos del dominio.
-* Uso de relaciones Eloquent.
-* Controladores enfocados en coordinar las operaciones.
-* Evitar duplicación de lógica.
-* Mantener una estructura sencilla acorde con el alcance del proyecto.
-
----
-
-# 🚀 Ejecución rápida
-
-Después de realizar la configuración inicial, los comandos principales para trabajar con el proyecto son:
-
-### Limpiar cachés
-
-```bash
-php artisan optimize:clear
-```
-
-### Compilar recursos frontend
-
-```bash
-npm run build
-```
-
-### Ejecutar pruebas
-
-```bash
-php artisan test
-```
-
-La aplicación se encuentra disponible mediante el servidor web configurado:
+Por ejemplo:
 
 ```text
 http://pqrs.test
 ```
 
-> El proyecto no requiere ejecutar `php artisan serve`, ya que las solicitudes son atendidas por Nginx y PHP-FPM.
+o:
+
+```text
+http://127.0.0.1:8000
+```
+
+5. Ejecutar las solicitudes disponibles para validar los endpoints de la API.
 
 ---
 
-# 📦 Entrega del proyecto
+# 🧪 Pruebas Automatizadas
 
-La entrega contempla:
+El proyecto cuenta con suites de pruebas unitarias y de integración para verificar el funcionamiento del sistema.
 
-* Código fuente.
-* Migraciones.
-* Seeders.
-* Modelos.
-* Controladores.
-* Vistas.
-* API REST.
-* Colección Postman.
-* Pruebas automatizadas.
-* Manual de instalación.
-* Documentación técnica.
-* README.
-* Evidencias de análisis y diseño.
+## Ejecutar todas las pruebas
+
+```bash
+php artisan test
+```
+## Ejecutar prueba de manera individual (únicamente la clase de prueba especificada)
+
+#### Registrar una nueva PQR
+```bash
+php artisan test --filter=PqrTest
+```
+#### Rastreo PQR por No. Radicado
+```bash
+php artisan test --filter=PqrTrackingTest
+```
+#### listado filtrado de PQRs
+```bash
+php artisan test --filter=PqrIndexTest
+```
+#### listado de PQRs por tipo
+```bash
+php artisan test --filter=PqrStatByTypeTest
+```
+#### listado de PQRs por estado y mes del año actual
+```bash
+php artisan test --filter=PqrStatByStatusTest
+```
+## Funcionalidades evaluadas
+
+- ✅ Registro de PQR y asignación de código único de radicado.
+- ✅ Validaciones de entrada mediante Form Requests.
+- ✅ Validación de campos requeridos y correos electrónicos.
+- ✅ Consulta del estado de una PQR mediante el número de radicado.
+- ✅ Transición de estados.
+- ✅ Registro de entradas en la traza de seguimiento.
+- ✅ Respuestas en formato JSON de la API RESTful.
 
 ---
 
-# 📄 Licencia
+# 🤖 Declaración sobre el Uso de Inteligencia Artificial (IA)
 
-Este proyecto fue desarrollado con fines académicos y de evaluación técnica.
+En cumplimiento con el requisito de transparencia establecido para la evaluación, se declara el uso de herramientas de inteligencia artificial como apoyo durante el desarrollo del proyecto.
+
+### Herramientas utilizadas
+
+- **ChatGPT**
+- **Gemini**
+
+### Alcance de su utilización
+
+**🎨 Ajustes de UI**
+
+Apoyo en la maquetación de vistas adaptativas y estilizado mediante Tailwind CSS y componentes Blade.
+
+**⚙️ Optimización Backend**
+
+Recomendaciones relacionadas con la estructuración de consultas mediante Eloquent ORM y formateo de respuestas mediante API Resources.
+
+**📚 Documentación Técnica**
+
+Apoyo en la organización y formateo del archivo `README.md`, así como en la estructuración del flujo de despliegue mediante Nginx.
+
+> La implementación, integración, validación y toma de decisiones técnicas sobre el proyecto corresponden al desarrollador.
 
 ---
 
 # 👨‍💻 Autor
 
-**Proyecto desarrollado como parte de una prueba técnica para el cargo de Analista de Desarrollo Tecnológico.**
+Proyecto desarrollado para la evaluación técnica del cargo de:
+
+**Analista de Desarrollo Tecnológico**  
+**Fundación Sersocial IPS**
+
+---
+
+<div align="center">
+
+**🏛️ Sistema de Gestión de PQR — Fundación Sersocial IPS**
+
+</div>

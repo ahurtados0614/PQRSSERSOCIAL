@@ -1,0 +1,523 @@
+{
+	"info": {
+		"_postman_id": "b47fcc13-d4ca-4183-b916-d7e06d9d5f3a",
+		"name": "PQR",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15085155",
+		"_collection_link": "https://www.postman.com/altimetry-pilot-53501146-s-team/workspace/fundacin-sersocial-ips-pqrs/collection/15085155-b47fcc13-d4ca-4183-b916-d7e06d9d5f3a?action=share&source=collection_link&creator=15085155"
+	},
+	"item": [
+		{
+			"name": "LogueadoPQR",
+			"item": [
+				{
+					"name": "Obtener CSRF",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const html = pm.response.text();",
+									"",
+									"const match = html.match(",
+									"    /<input[^>]+name=[\"']_token[\"'][^>]+value=[\"']([^\"']+)[\"']/",
+									");",
+									"",
+									"if (match) {",
+									"    pm.environment.set(\"csrf_token\", match[1]);",
+									"    console.log(\"CSRF token guardado.\");",
+									"} else {",
+									"    console.log(\"No se encontró el token CSRF.\");",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/html",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "email",
+									"value": "admin@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{envlocal}}/login",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "## Credenciales Demo\n\n**Administrador**\n\nemail: `admin@example.com`\n\npassword:`12345678`\n\n**Gestor PQRS**\n\nemail: gestor`@example.com`\n\npassword:`12345678`**Supervisor PQRS**\n\nemail: supervisor`@example.com`\n\npassword:`12345678`\n\n## Variable de Entorno (csrf_token)\n\ndesde la pestaña test le damos el valor a {{csrf_token}} para poder acceder a los formularios y validaciones de usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "loginPQr",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "_token",
+									"value": "{{csrf_token}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "admin@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{envlocal}}/login",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "## Credenciales Demo\n\n**Administrador**\n\nemail: `admin@example.com`\n\npassword:`12345678`\n\n**Gestor PQRS**\n\nemail: gestor`@example.com`\n\npassword:`12345678`**Supervisor PQRS**\n\nemail: supervisor`@example.com`\n\npassword:`12345678`"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Estadisticas",
+			"item": [
+				{
+					"name": "PQR recibidas por mes, por estado año actual",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+								"disabled": true
+							},
+							{
+								"key": "Accept-Language",
+								"value": "es-US,es-419;q=0.9,es;q=0.8",
+								"disabled": true
+							},
+							{
+								"key": "Cache-Control",
+								"value": "max-age=0",
+								"disabled": true
+							},
+							{
+								"key": "Connection",
+								"value": "keep-alive",
+								"disabled": true
+							},
+							{
+								"key": "Upgrade-Insecure-Requests",
+								"value": "1",
+								"disabled": true
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{envlocal}}/api/pqr/stat-by-status",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"api",
+								"pqr",
+								"stat-by-status"
+							]
+						},
+						"description": "Permite traer los datos necesarios para renderizar el **Diagrama PQRs Por Estado.**\n\nNo requiere que enviemos parametros."
+					},
+					"response": []
+				},
+				{
+					"name": "PQR recibidas por tipo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+								"disabled": true
+							},
+							{
+								"key": "Accept-Language",
+								"value": "es-US,es-419;q=0.9,es;q=0.8",
+								"disabled": true
+							},
+							{
+								"key": "Cache-Control",
+								"value": "max-age=0",
+								"disabled": true
+							},
+							{
+								"key": "Connection",
+								"value": "keep-alive",
+								"disabled": true
+							},
+							{
+								"key": "Upgrade-Insecure-Requests",
+								"value": "1",
+								"disabled": true
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{envlocal}}/api/pqr/stat-by-type",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"api",
+								"pqr",
+								"stat-by-type"
+							]
+						},
+						"description": "Permite traer los datos necesarios para renderizar el **Diagrama PQRs por Tipo.**\n\nNo requiere que enviemos parametros."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Solicitudes Post",
+			"item": [
+				{
+					"name": "Registro PQR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 1. Obtener la respuesta en formato JSON",
+									"var jsonData = pm.response.json();",
+									"",
+									"// 2. Verificar que existe la propiedad 'radicado'",
+									"if (jsonData && jsonData.radicado) {",
+									"    // Extraer los dígitos finales ignorando los ceros a la izquierda",
+									"    // \"PQ-2026-000005\" -> extrae \"5\"",
+									"    var match = jsonData.radicado.match(/(\\d+)$/);",
+									"",
+									"    if (match) {",
+									"        var id = parseInt(match[1], 10);",
+									"        ",
+									"        // Guardar el número extraído en la variable de entorno 'pqr_id'",
+									"        pm.environment.set(\"pqr_id\", id);",
+									"        console.log(\"ID extraído y guardado:\", id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "es-US,es-419;q=0.9,es;q=0.8"
+							},
+							{
+								"key": "Connection",
+								"value": "keep-alive"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Origin",
+								"value": "http://pqrs.test"
+							},
+							{
+								"key": "Referer",
+								"value": "http://pqrs.test/"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"type\": \"peticion\",\n    \"category\": \"Servicios Médicos\",\n    \"subject\": \"Solicitud de resultado examentes\",\n    \"description\": \"Requiero autorización para realización de examenes\",\n    \"priority\": \"urgente\",\n    \"identification\": \"245424812\",\n    \"name\": \"brensa\",\n    \"lastname\": \"martinez\",\n    \"email\": \"ahurtados0614@gmail.com\",\n    \"phone\": \"3008987654\"\n}"
+						},
+						"url": {
+							"raw": "{{envlocal}}/api/pqrs",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"api",
+								"pqrs"
+							]
+						},
+						"description": "## **Registro de una nueva PQR**\n\nPermite registra una nueva PQR al sistema.\n\n### Campos\n\n**type:** tipo de pqr\n\n**Valores permitidos**\n\n- 'peticion'\n- 'queja'\n- 'reclamo'\n    \n\n**category:** Categoria\n\n\"categoria, texto para categorizar la pqr\"\n\n**subject:** Título pqr\n\n\"titulo de la pqr\"\n\n**description:** Descripción\n\n\"descrripción de la pqr\"\n\n**priority:** Prioridad\n\n**permitidos**\n\n- 'baja'\n- 'media'\n- 'alta'\n- 'urgente'\n    \n\n**identification:** Identificación\n\n\"Nro de identificación del solicitante\"\n\n**name:** Nombre\n\n\"Nombre del solicitante\"\n\n**lastname:** Apellidos\n\n\"Apellidos del solicitante\"\n\n**email:** Correo\n\n\"Correo válido del solicitante donde notificar los cambios de estado de la pqr\"\n\n**phone:** Teléfono\n\n\"Teléfono del solicitante\""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Solicitudes Get",
+			"item": [
+				{
+					"name": "Rastreo PQR por No. Radicado",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+								"disabled": true
+							},
+							{
+								"key": "Accept-Language",
+								"value": "es-US,es-419;q=0.9,es;q=0.8",
+								"disabled": true
+							},
+							{
+								"key": "Cache-Control",
+								"value": "max-age=0",
+								"disabled": true
+							},
+							{
+								"key": "Connection",
+								"value": "keep-alive",
+								"disabled": true
+							},
+							{
+								"key": "Upgrade-Insecure-Requests",
+								"value": "1",
+								"disabled": true
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36",
+								"disabled": true
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{envlocal}}/api/pqr/rastreo?radicado=PQR-2026-00001",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"api",
+								"pqr",
+								"rastreo"
+							],
+							"query": [
+								{
+									"key": "radicado",
+									"value": "PQR-2026-00001"
+								}
+							]
+						},
+						"description": "## Rastreo PQR por No. Radicado\n\nPermite consultar los datos, seguimientos de una pqr por medio de un número de radicado\n\n### Campos\n\n**radicado:** este es un número generado de manera automatico por el sistema. tiene el siguiente patrón\n\nPQR-yyyy-nro_de_pqr\n\n**PQR:** Indica que es una pqr\n\n**yyyy:** año en que se radica la pqr\n\n**PQR: Número de l**a pqr"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter PQR",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "es-US,es-419;q=0.9,es;q=0.8"
+							},
+							{
+								"key": "Connection",
+								"value": "keep-alive"
+							},
+							{
+								"key": "Referer",
+								"value": "http://pqrs.test/pqrs"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest"
+							}
+						],
+						"url": {
+							"raw": "{{envlocal}}/api/pqr?type=peticion&status=recibida&priority=media",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"api",
+								"pqr"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "peticion"
+								},
+								{
+									"key": "status",
+									"value": "recibida"
+								},
+								{
+									"key": "priority",
+									"value": "media"
+								},
+								{
+									"key": "category",
+									"value": "Servicios Médicos",
+									"disabled": true
+								}
+							]
+						},
+						"description": "## Filter PQR\n\nPermite consultar pqr aplicando una serie de parametros que funcionan como filtros\n\n## Campos\n\n**type:** tipo de pqr\n\n**Valores permitidos:**\n\n- 'peticion'\n- 'queja'\n- 'reclamo'\n    \n\n**status:** estado de la pqr\n\n**Valores permitidos:**\n\n- 'recibida'\n- 'en_gestion'\n- 'resuelta'\n- 'cerrada'\n    \n\n**categoria:** categorización de la pqr\n\n\"categoria, texto para categorizar la pqr\""
+					},
+					"response": []
+				},
+				{
+					"name": "Gestionar seguimiento PQR",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept-Language",
+								"value": "es-US,es-419;q=0.9,es;q=0.8"
+							},
+							{
+								"key": "Connection",
+								"value": "keep-alive"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Origin",
+								"value": "http://pqrs.test"
+							},
+							{
+								"key": "Referer",
+								"value": "http://pqrs.test/pqrs"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/153.0.0.0 Safari/537.36"
+							},
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "{{csrf_token}}"
+							},
+							{
+								"key": "X-Requested-With",
+								"value": "XMLHttpRequest"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"estado\": \"en_gestion\",\n    \"tipo_accion\": \"cambio_estado\",\n    \"descripcion\": \"La PQR se encuentra actualmente en proceso de gestión.\",\n    \"prioridad\": \"urgente\",\n    \"statusOldValue\": \"recibida\"\n}"
+						},
+						"url": {
+							"raw": "{{envlocal}}/api/pqr/{{pqr_id}}/gestion",
+							"host": [
+								"{{envlocal}}"
+							],
+							"path": [
+								"api",
+								"pqr",
+								"{{pqr_id}}",
+								"gestion"
+							]
+						},
+						"description": "Permite traer los datos necesarios para renderizar la información con la cual podemos **hacer seguimiento a una PQR.**\n\nRequiere el **id** de la pqr.\n\nen este caso usamos una variable de entorno la cual seteamos **{{pqr_id}}** le damos valor al registrar una nueva pqr."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

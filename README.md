@@ -172,10 +172,17 @@ Para un entorno de producción se recomienda:
 ```bash
 composer install --no-dev --optimize-autoloader
 ```
+---
+## 3. Crear la base de datos
+##### En tu gestor de base de datos puedes ejecutar el siguiente query:
 
+```bash
+CREATE DATABASE `pqrs` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+```
 ---
 
-## 3. Configurar las variables de entorno
+## 4. Configurar las variables de entorno
 
 Crear el archivo `.env` a partir del archivo de ejemplo:
 
@@ -215,7 +222,7 @@ También se deben configurar las variables correspondientes al entorno de produc
 
 ---
 
-## 4. Compilar los recursos Frontend
+## 5. Compilar los recursos Frontend
 
 Instalar las dependencias de Node.js:
 
@@ -231,7 +238,7 @@ npm run build
 
 ---
 
-## 5. Inicializar la base de datos
+## 6. Inicializar la base de datos
 
 Ejecutar las migraciones y seeders:
 
@@ -249,7 +256,7 @@ php artisan migrate:fresh --seed
 
 ---
 
-## 6. Configurar permisos
+## 7. Configurar permisos
 
 Garantizar que el usuario del servidor web tenga permisos de escritura sobre los directorios requeridos:
 
@@ -259,27 +266,6 @@ sudo chmod -R 775 storage bootstrap/cache
 ```
 
 ---
-
-## 7. Crear el enlace de almacenamiento
-
-Si la aplicación utiliza archivos almacenados públicamente:
-
-```bash
-php artisan storage:link
-```
-
----
-
-## 8. Optimizar la aplicación
-
-Para producción:
-
-```bash
-php artisan optimize
-```
-
----
-
 # 👤 Usuarios y Credenciales Demo
 
 Al ejecutar:

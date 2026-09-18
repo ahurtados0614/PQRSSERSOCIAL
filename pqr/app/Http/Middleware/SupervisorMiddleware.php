@@ -21,7 +21,7 @@ class SupervisorMiddleware
             if (in_array(Auth::user()->id_rol, [1, 3])) {
                 return $next($request);
             }
-            return response()->view('errors.unauthorized', [], 403);
+            return redirect()->route('login');
         }
             return redirect()->route('login');
     }

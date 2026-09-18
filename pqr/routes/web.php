@@ -6,7 +6,6 @@ use App\Http\Controllers\SeguimientoController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\GestorMiddleware;
-use App\Http\Middleware\LoggedUserMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,13 +32,18 @@ Route::middleware([
 
     //Administrador
     Route::middleware(['web', AdminMiddleware::class])->group(function () {
-        //Usuarios
-        Route::get('/users', [UserController::class, 'show'])->name('users')->middleware('auth');
+        //Usuarios        
+        Route::resource('users', UserController::class)->only([
+            'index',
+            'store',
+            'update',
+            'destroy'
+        ]);
     });
-   
+
     //Agentes|Administrador|Supervisor
     Route::middleware(['web', GestorMiddleware::class])->group(function () {
-    // Listado de PQR
-        Route::get('/pqrs', [SeguimientoController::class, 'index'])->name('pqrs.index')->middleware('auth');        
+        // Listado de PQR
+        Route::get('/pqrs', [SeguimientoController::class, 'index'])->name('pqrs.index')->middleware('auth');
     });
 });

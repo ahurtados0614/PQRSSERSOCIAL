@@ -16,11 +16,12 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
+         if (Auth::check()) {
+            
             if (Auth::user()->id_rol==1) {
                 return $next($request);
             }
-            return response()->view('errors.unauthorized', [], 403);
+            return redirect()->route('login');
         }
             return redirect()->route('login');
     }

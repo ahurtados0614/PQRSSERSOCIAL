@@ -3,7 +3,9 @@
 use App\Http\Controllers\PqrController;
 use App\Http\Controllers\PqrTrackingController;
 use App\Http\Controllers\SeguimientoController;
+use App\Http\Controllers\StatsController;
 use App\Http\Middleware\GestorMiddleware;
+use App\Http\Middleware\SupervisorMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,4 +32,16 @@ Route::middleware(['web', GestorMiddleware::class])->group(function () {
     //actualizar Gestion PQR
     Route::patch('/pqr/{pqr}/gestion', [SeguimientoController::class, 'update'])
         ->name('pqrs.gestion');
+});
+
+//Administrador|Supervisor
+Route::middleware(['web', SupervisorMiddleware::class])->group(function () {
+
+    //Estadisticas
+
+    //PQRs Por Estado
+    Route::get('/pqr/stat-by-status', [StatsController::class, 'pqrStatByStatus']);
+
+    //PQRs Por Tipo
+    Route::get('/pqr/stat-by-type', [StatsController::class, 'pqrStatByType']);
 });

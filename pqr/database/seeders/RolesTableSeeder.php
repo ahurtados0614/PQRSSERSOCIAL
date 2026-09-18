@@ -1,45 +1,42 @@
 <?php
-
 namespace Database\Seeders;
 
+use App\Models\Roles;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class RolesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        DB::table('roles')->updateOrInsert(
-            ['name' => 'Administrador'],
+        $roles = [
             [
-                'status' => '1',
-                'delete' => '0',
-                'user_create' => 'Sistema',
+                'id'          => 1,
+                'name'        => 'ADMINISTRADOR',
+                'status'      => '1',
+                'delete'      => '0',
+                'user_create' => 'SYSTEM',
                 'date_create' => now()->toDateString(),
-            ]
-        );
+            ],
+            [
+                'id'          => 2,
+                'name'        => 'Gestor PQRS',
+                'status'      => '1',
+                'delete'      => '0',
+                'user_create' => 'SYSTEM',
+                'date_create' => now()->toDateString(),
+            ],
+            [
+                'id'          => 3,
+                'name'        => 'Supervisor PQRS',
+                'status'      => '1',
+                'delete'      => '0',
+                'user_create' => 'SYSTEM',
+                'date_create' => now()->toDateString(),
+            ],
+        ];
 
-        DB::table('roles')->updateOrInsert(
-            ['name' => 'Agente'],
-            [
-                'status' => '1',
-                'delete' => '0',
-                'user_create' => 'Sistema',
-                'date_create' => now()->toDateString(),
-            ]
-        );
-
-        DB::table('roles')->updateOrInsert(
-            ['name' => 'Supervisor'],
-            [
-                'status' => '1',
-                'delete' => '0',
-                'user_create' => 'Sistema',
-                'date_create' => now()->toDateString(),
-            ]
-        );
+        foreach ($roles as $role) {
+            Roles::updateOrCreate(['id' => $role['id']], $role);
+        }
     }
 }

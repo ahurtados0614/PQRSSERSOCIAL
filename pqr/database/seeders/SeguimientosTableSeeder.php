@@ -3,41 +3,45 @@
 namespace Database\Seeders;
 
 use App\Constants\TrackingActionType;
+use App\Models\Pqrs;
+use App\Models\Seguimiento;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SeguimientosTableSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('seguimientos')->insert([
-            [
-                'descripcion' => 'PQR recibida y registrada en el sistema.',
-                'tipo_accion' => TrackingActionType::COMENTARIO,
+        $usuario = User::first();
+        $pqr1 = Pqrs::where('radicado', 'PQR-2026-00001')->first();
+        $pqr2 = Pqrs::where('radicado', 'PQR-2026-00002')->first();
+
+        if ($pqr1) {
+            Seguimiento::create([
+                'descripcion'    => 'Solicitud recibida exitosamente desde el portal web.',
+                'tipo_accion'    => TrackingActionType::COMENTARIO ?? 'comentario',
+                'fecha_registro' => now()->subDays(2),
+                'pqr_id'         => $pqr1->id,
+                'usuario_id'     => null, // Acción automática del sistema
+            ]);
+        }
+
+        if ($pqr2) {
+            Seguimiento::create([
+                'descripcion'    => 'Queja radicada en punto de atención presencial.',
+                'tipo_accion'    => TrackingActionType::COMENTARIO ?? 'comentario',
+                'fecha_registro' => now()->subDays(1),
+                'pqr_id'         => $pqr2->id,
+                'usuario_id'     => $usuario?->id,
+            ]);
+
+            Seguimiento::create([
+                'descripcion'    => 'Se escala el caso con el coordinador de farmacia para verificación.',
+                'tipo_accion'    => TrackingActionType::CAMBIO_ESTADO ?? 'cambio_estado',
                 'fecha_registro' => now(),
-                'pqr_id' => 1,
-                'usuario_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'descripcion' => 'Se inicia la gestión de la solicitud.',
-                'tipo_accion' => TrackingActionType::CAMBIO_ESTADO,
-                'fecha_registro' => now(),
-                'pqr_id' => 2,
-                'usuario_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'descripcion' => 'Se realizó la gestión correspondiente y se da solución al caso.',
-                'tipo_accion' => TrackingActionType::RESPUESTA,
-                'fecha_registro' => now(),
-                'pqr_id' => 3,
-                'usuario_id' => 2,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
+                'pqr_id'         => $pqr2->id,
+                'usuario_id'     => $usuario?->id,
+            ]);
+        }
     }
 }

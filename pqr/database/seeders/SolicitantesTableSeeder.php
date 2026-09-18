@@ -1,42 +1,42 @@
 <?php
-
 namespace Database\Seeders;
 
+use App\Models\Solicitante;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SolicitantesTableSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('solicitantes')->insert([
+        $solicitantes = [
             [
-                'nombre' => 'Carlos',
-                'apellido' => 'Pérez',
-                'identificacion' => '100000001',
-                'email' => 'carlos.perez@example.com',
-                'telefono' => '3001234567',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'nombre'         => 'Juan Carlos',
+                'apellido'       => 'Pérez Gómez',
+                'identificacion' => '1098765432',
+                'email'          => 'developersgroup83@gmail.com',
+                'telefono'       => '3001234567',
             ],
             [
-                'nombre' => 'María',
-                'apellido' => 'Gómez',
-                'identificacion' => '100000002',
-                'email' => 'maria.gomez@example.com',
-                'telefono' => '3012345678',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'nombre'         => 'María Fernanda',
+                'apellido'       => 'López Martínez',
+                'identificacion' => '1087654321',
+                'email'          => 'developersgroup83@gmail.com',
+                'telefono'       => '3109876543',
             ],
             [
-                'nombre' => 'Andrés',
-                'apellido' => 'Rodríguez',
-                'identificacion' => '100000003',
-                'email' => 'andres.rodriguez@example.com',
-                'telefono' => '3023456789',
-                'created_at' => now(),
-                'updated_at' => now(),
+                'nombre'         => 'Carlos Alberto',
+                'apellido'       => 'Rodríguez Silva',
+                'identificacion' => '1076543210',
+                'email'          => 'developersgroup83@gmail.com',
+                'telefono'       => '3201239876',
             ],
-        ]);
+        ];
+
+        foreach ($solicitantes as $solicitante) {
+            Solicitante::updateOrCreate(
+                ['identificacion' => $solicitante['identificacion']],
+                $solicitante
+            );
+        }
     }
 }

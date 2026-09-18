@@ -13,11 +13,11 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            RolesTableSeeder::class,
-            UsersTableSeeder::class,
-            SolicitantesTableSeeder::class,
-            PqrsTableSeeder::class,
-            SeguimientosTableSeeder::class,
+            RolesTableSeeder::class, // Crea los roles administradores/gestores
+            UsersTableSeeder::class, // Crea los usuarios administradores/gestores
+            SolicitantesTableSeeder::class, // Crea los solicitantes de las PQRs
+            PqrsTableSeeder::class,         // Crea las PQRs asociadas a solicitantes
+            SeguimientosTableSeeder::class, // Crea las trazas de seguimiento
         ]);
 
         

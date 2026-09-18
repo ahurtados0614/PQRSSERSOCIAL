@@ -466,9 +466,9 @@
                                         dark:border-gray-600
                                         dark:bg-gray-800
                                         dark:text-white">
-
+                                    <option value="">Seleccionar...</option>
                                     @foreach($TrackingActionType as $value => $labels)
-                                    <option value="">Seleccionar</option>
+                                    
                                     <option value="{{ $value }}">
                                         {{ $labels }}
                                     </option>
@@ -491,7 +491,7 @@
                                         dark:border-gray-600
                                         dark:bg-gray-800
                                         dark:text-white">
-                                    <option value="">Seleccionar</option>
+                                    <option value="">Seleccionar...</option>
                                     @foreach($PqrsPriority as $value => $labels)
                                     <option value="{{ $value }}">
                                         {{ $labels }}
@@ -515,7 +515,7 @@
                                         dark:border-gray-600
                                         dark:bg-gray-800
                                         dark:text-white">
-                                    <option value="">Seleccionar</option>
+                                    <option value="">Seleccionar...</option>
                                     @foreach($PqrsStatus as $value => $labels)
                                     <option value="{{ $value }}">
                                         {{ $labels }}

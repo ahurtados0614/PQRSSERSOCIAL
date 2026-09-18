@@ -271,7 +271,7 @@
 
                 const labels = {
                     recibida: 'Recibida',
-                    en_gestion: 'En proceso',
+                    en_gestion: 'En gestión',
                     resuelta: 'resuelta',
                     cerrada: 'Cerrada'
                 };
